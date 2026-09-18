@@ -1,0 +1,544 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>بازی استروپ - مدرسه امام حسن</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Tahoma, Arial, sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg,
+        #ff9a9e,
+        #fad0c4,
+        #a18cd1,
+        #84fab0,
+        #8fd3f4
+    );
+    background-size: 400% 400%;
+    animation: backgroundMove 10s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes backgroundMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.container {
+    width: 92%;
+    max-width: 700px;
+}
+
+/* صفحه اول */
+
+.welcome {
+    background: rgba(255,255,255,0.95);
+    border-radius: 35px;
+    padding: 45px 25px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    animation: appear 0.8s ease;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.school {
+    font-size: 25px;
+    font-weight: bold;
+    color: #7b2cbf;
+}
+
+.hello {
+    font-size: 38px;
+    font-weight: bold;
+    margin: 25px 0;
+    background: linear-gradient(
+        90deg,
+        #ff006e,
+        #8338ec,
+        #3a86ff,
+        #06d6a0,
+        #ffbe0b
+    );
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.subtitle {
+    font-size: 20px;
+    line-height: 2;
+    color: #555;
+}
+
+.emoji {
+    font-size: 55px;
+    margin: 15px;
+}
+
+.startButton {
+    border: none;
+    padding: 18px 45px;
+    font-size: 23px;
+    font-weight: bold;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    background: linear-gradient(45deg,#ff006e,#8338ec,#3a86ff);
+    box-shadow: 0 8px 20px rgba(131,56,236,0.35);
+    transition: 0.3s;
+}
+
+.startButton:hover {
+    transform: scale(1.08);
+}
+
+/* بازی */
+
+.game {
+    display: none;
+    background: rgba(255,255,255,0.96);
+    border-radius: 35px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+.gameTitle {
+    font-size: 32px;
+    font-weight: bold;
+    background: linear-gradient(
+        90deg,
+        #ff006e,
+        #8338ec,
+        #3a86ff,
+        #06d6a0
+    );
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.psychologist {
+    font-size: 17px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.info {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    gap: 10px;
+}
+
+.infoBox {
+    padding: 12px 20px;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.scoreBox {
+    background: #fff0f6;
+    color: #ff006e;
+}
+
+.timeBox {
+    background: #eef7ff;
+    color: #3a86ff;
+}
+
+.instruction {
+    font-size: 18px;
+    color: #555;
+}
+
+#word {
+    font-size: 75px;
+    font-weight: bold;
+    min-height: 100px;
+    margin: 30px 0;
+    animation: wordAppear 0.3s ease;
+}
+
+@keyframes wordAppear {
+    from {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.colorButton {
+    border: none;
+    color: white;
+    padding: 20px;
+    font-size: 21px;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 7px 0 rgba(0,0,0,0.15);
+}
+
+.colorButton:hover {
+    transform: translateY(-3px);
+}
+
+.colorButton:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
+
+.red {
+    background: #ff3b30;
+}
+
+.blue {
+    background: #007aff;
+}
+
+.green {
+    background: #20c997;
+}
+
+.yellow {
+    background: #ffbf00;
+}
+
+#message {
+    min-height: 35px;
+    margin: 20px 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.restart {
+    border: none;
+    background: #8338ec;
+    color: white;
+    padding: 13px 30px;
+    border-radius: 25px;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.footer {
+    margin-top: 20px;
+    color: #999;
+    font-size: 13px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- صفحه خوش آمدگویی -->
+
+    <div class="welcome" id="welcome">
+
+        <div class="emoji">
+            🌸🎨🌈🦋✨
+        </div>
+
+        <div class="school">
+            🏫 مدرسه امام حسن
+        </div>
+
+        <div class="hello">
+            سلام دخترای قشنگ امام حسنی! 💕
+        </div>
+
+        <div class="subtitle">
+            آماده‌اید یک بازی شاد و هیجان‌انگیز انجام بدیم؟ 😍
+            <br>
+            حواستون رو جمع کنید و رنگ درست رو پیدا کنید! 🎯
+        </div>
+
+        <div class="emoji">
+            🌈 🧠 ⭐ 🎀
+        </div>
+
+        <button class="startButton" onclick="startGame()">
+            🚀 بزن بریم!
+        </button>
+
+        <p class="footer">
+            روانشناس کودک: فاطمه قراگزلو
+        </p>
+
+    </div>
+
+
+    <!-- صفحه بازی -->
+
+    <div class="game" id="game">
+
+        <div class="gameTitle">
+            🎨 بازی رنگارنگ استروپ 🎨
+        </div>
+
+        <div class="psychologist">
+            👩‍⚕️ روانشناس کودک: فاطمه قراگزلو
+            <br>
+            🏫 مدرسه امام حسن
+        </div>
+
+        <div class="info">
+
+            <div class="infoBox scoreBox">
+                ⭐ امتیاز:
+                <span id="score">0</span>
+            </div>
+
+            <div class="infoBox timeBox">
+                ⏰ زمان:
+                <span id="time">30</span>
+            </div>
+
+        </div>
+
+        <div class="instruction">
+            💡 رنگ نوشته را انتخاب کن، نه معنی کلمه را!
+        </div>
+
+        <div id="word">
+            آماده‌ای؟ 🌸
+        </div>
+
+        <div class="buttons">
+
+            <button class="colorButton red"
+                    onclick="checkAnswer('red')">
+                ❤️ قرمز
+            </button>
+
+            <button class="colorButton blue"
+                    onclick="checkAnswer('blue')">
+                💙 آبی
+            </button>
+
+            <button class="colorButton green"
+                    onclick="checkAnswer('green')">
+                💚 سبز
+            </button>
+
+            <button class="colorButton yellow"
+                    onclick="checkAnswer('yellow')">
+                💛 زرد
+            </button>
+
+        </div>
+
+        <div id="message"></div>
+
+        <button class="restart" onclick="backToWelcome()">
+            🏠 صفحه اول
+        </button>
+
+        <div class="footer">
+            🌸 با آرزوی موفقیت برای دخترای امام حسنی 🌸
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const colors = {
+    red: "قرمز",
+    blue: "آبی",
+    green: "سبز",
+    yellow: "زرد"
+};
+
+const colorValues = {
+    red: "#ff3b30",
+    blue: "#007aff",
+    green: "#20c997",
+    yellow: "#ffbf00"
+};
+
+let correctColor = "";
+let score = 0;
+let time = 30;
+let timer = null;
+let playing = false;
+
+
+/* انتخاب تصادفی رنگ */
+
+function randomColor() {
+
+    const keys = Object.keys(colors);
+
+    return keys[
+        Math.floor(Math.random() * keys.length)
+    ];
+}
+
+
+/* ساخت مرحله جدید */
+
+function newRound() {
+
+    const wordColor = randomColor();
+
+    correctColor = randomColor();
+
+    const word = document.getElementById("word");
+
+    word.textContent = colors[wordColor];
+
+    word.style.color = colorValues[correctColor];
+
+    word.style.animation = "none";
+
+    setTimeout(function() {
+        word.style.animation = "wordAppear 0.3s ease";
+    }, 10);
+}
+
+
+/* بررسی پاسخ */
+
+function checkAnswer(answer) {
+
+    if (!playing) return;
+
+    if (answer === correctColor) {
+
+        score++;
+
+        document.getElementById("message").textContent =
+            "🌟 آفرین! درست گفتی!";
+
+    } else {
+
+        score--;
+
+        document.getElementById("message").textContent =
+            "💫 اشکالی نداره، دوباره تلاش کن!";
+
+    }
+
+    document.getElementById("score").textContent = score;
+
+    newRound();
+}
+
+
+/* شروع بازی */
+
+function startGame() {
+
+    document.getElementById("welcome").style.display = "none";
+
+    document.getElementById("game").style.display = "block";
+
+    score = 0;
+
+    time = 30;
+
+    playing = true;
+
+    document.getElementById("score").textContent = score;
+
+    document.getElementById("time").textContent = time;
+
+    document.getElementById("message").textContent =
+        "🌈 شروع کنیم!";
+
+    newRound();
+
+    clearInterval(timer);
+
+    timer = setInterval(function() {
+
+        time--;
+
+        document.getElementById("time").textContent = time;
+
+        if (time <= 0) {
+
+            endGame();
+
+        }
+
+    }, 1000);
+}
+
+
+/* پایان بازی */
+
+function endGame() {
+
+    clearInterval(timer);
+
+    playing = false;
+
+    document.getElementById("word").textContent =
+        "🎉 آفرین! بازی تموم شد!";
+
+    document.getElementById("word").style.color =
+        "#8338ec";
+
+    document.getElementById("message").textContent =
+        "🏆 امتیاز نهایی تو: " + score +
+        " ⭐";
+
+}
+
+
+/* برگشت به صفحه اول */
+
+function backToWelcome() {
+
+    clearInterval(timer);
+
+    playing = false;
+
+    document.getElementById("game").style.display = "none";
+
+    document.getElementById("welcome").style.display = "block";
+
+}
+
+</script>
+
+</body>
+</html>
